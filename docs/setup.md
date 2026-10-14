@@ -22,7 +22,7 @@ lecturer for the correct starter copy. Do not edit the shared class template.
 
 ## Option B: Local setup (clone)
 
-You need Git, Python 3.12, an editor and a terminal installed on your computer.
+You need Git, Python 3.14, an editor and a terminal installed on your computer.
 On **your** repository, open **Code** and copy its HTTPS clone URL. Replace the
 example below with that real URL; do not type the angle brackets.
 
@@ -54,15 +54,15 @@ If that branch already exists, switch to it with `git switch week05-fastapi`.
 
 ## Create and select the environment
 
-In the terminal, check that `python --version` selects Python 3.12, then create
+In the terminal, check that `python --version` selects Python 3.14, then create
 the environment:
 
 ```bash
 python -m venv .venv
 ```
 
-Windows users can use `py -3.12 -m venv .venv`; macOS/Linux users can use
-`python3.12 -m venv .venv` if needed. Activate using your terminal's command:
+Windows users can use `py -3.14 -m venv .venv`; macOS/Linux users can use
+`python3.14 -m venv .venv` if needed. Activate using your terminal's command:
 
 | Terminal | Activation command |
 |---|---|

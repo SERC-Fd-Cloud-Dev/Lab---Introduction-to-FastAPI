@@ -29,7 +29,7 @@ lessons need database sessions or authentication.
 | [FastAPI — Testing](https://fastapi.tiangolo.com/tutorial/testing/) | TestClient and pytest pattern |
 | [FastAPI — Path Parameters](https://fastapi.tiangolo.com/tutorial/path-params/) | Parameter names and integer annotations |
 | [FastAPI — Handling Errors](https://fastapi.tiangolo.com/tutorial/handling-errors/) | HTTPException and HTTP error responses |
-| [Python 3.12 — venv](https://docs.python.org/3.12/library/venv.html) | Environment creation and terminal-specific activation |
+| [Python 3.14 — venv](https://docs.python.org/3.14/library/venv.html) | Environment creation and terminal-specific activation |
 | [GitHub — Creating a repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) | Personal copy of the class starter |
 
 Use the pinned package manifest supplied with the exercise. Online documentation
