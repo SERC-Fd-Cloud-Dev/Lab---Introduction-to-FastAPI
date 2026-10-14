@@ -18,6 +18,20 @@ encodes that value as a JSON response and supplies an HTTP status and headers.
 Uvicorn is the server that accepts network requests and serves the application.
 The application, route handler and server have related but distinct jobs.
 
+Here is a small example for a different path. The decorator is attached to the
+function directly below it, and the function returns ordinary Python data:
+
+```python
+@app.get("/hello")
+def say_hello():
+    return {"message": "Hello"}
+```
+
+Read it as: for a GET request to `/hello`, FastAPI calls `say_hello`; the
+returned dictionary becomes a JSON response. This is a syntax example only:
+do not add `/hello` to your app. In the steps below, use the interface contract
+to choose the route path, handler name and response for each Equipment operation.
+
 ## Guided start — about 5 minutes
 
 1. Open `app/main.py`. Identify the FastAPI import and the supplied `app`

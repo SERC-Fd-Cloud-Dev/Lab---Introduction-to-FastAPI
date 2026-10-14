@@ -20,7 +20,7 @@ response may contain `id`, `name` and `location` while the generated response
 schema remains broad: observed dictionary fields do not automatically provide
 a precise field-level schema. Pydantic response models are not required here.
 
-## Pytest and TestClient — about 2 minutes
+## Pytest and TestClient — about 3 minutes
 
 `pytest` discovers test files named `test_*.py` and test functions named
 `test_*`. It runs them and reports whether their assertions passed or failed.
@@ -37,7 +37,39 @@ Before adding a test, pytest collects none and exits with code 5. That means
 there was no test to run; it is neither a pass nor a failure of the health
 route. A test with no meaningful assertions is not evidence either.
 
-## Build a real test — about 10 minutes
+Read this **unrelated greeting example** to see the pieces together. It
+illustrates a small app and its test; do not add either snippet to the Equipment
+Inventory app:
+
+```python
+# Example app saved as example_app.py
+from fastapi import FastAPI
+
+demo = FastAPI()
+
+@demo.get("/greeting")
+def greeting():
+    return {"message": "Hello"}
+```
+
+```python
+# Example test saved as test_example_app.py
+from example_app import demo
+from fastapi.testclient import TestClient
+
+def test_greeting_returns_message():
+    with TestClient(demo) as client:
+        response = client.get("/greeting")
+    assert response.status_code == 200
+    assert response.json() == {"message": "Hello"}
+```
+
+Notice the pattern: create a client for the app, request a path, then make
+meaningful assertions about the response. In a real test file, the app object
+is imported from its module, as the second example demonstrates. These filenames
+and snippets are for illustration only; do not create them in your exercise.
+
+## Build a real test — about 9 minutes
 
 Follow these steps to create `tests/test_health.py`; write the code yourself:
 
@@ -75,3 +107,6 @@ Record the correct run, deliberate failure, restored run and one thing the
 health test does not prove. A passing test is evidence for this endpoint's
 behaviour, not database readiness, deployment or full contract compliance.
 Commit the real test and learning-log evidence, then push.
+
+For a final independent check, describe the two assertions before looking at
+the test code again and explain which one detects an incorrect response body.
