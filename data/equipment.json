@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name": "3D printer",
+    "location": "Makerspace"
+  },
+  {
+    "id": 2,
+    "name": "Laser cutter",
+    "location": "Workshop"
+  },
+  {
+    "id": 3,
+    "name": "Camera kit",
+    "location": "Media room"
+  }
+]

@@ -1,0 +1,21 @@
+# Optional: run these using an editor HTTP client or copy the URLs into Postman.
+# These are request examples, not completed automated tests.
+
+### Core: health (expected 404 in the starter; 200 after Exercise 01)
+GET http://127.0.0.1:8000/health
+Accept: application/json
+
+### Core: collection
+GET http://127.0.0.1:8000/equipment
+Accept: application/json
+
+### Generated contract
+GET http://127.0.0.1:8000/openapi.json
+
+### Homework: existing item
+GET http://127.0.0.1:8000/equipment/2
+Accept: application/json
+
+### Homework: absent item
+GET http://127.0.0.1:8000/equipment/999
+Accept: application/json

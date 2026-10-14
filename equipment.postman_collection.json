@@ -1,0 +1,54 @@
+{
+  "info": {
+    "name": "Equipment Inventory lesson requests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/health"
+      }
+    },
+    {
+      "name": "Equipment list",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/equipment"
+      }
+    },
+    {
+      "name": "Existing item (homework)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/equipment/2"
+      }
+    },
+    {
+      "name": "Missing item (homework)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/equipment/999"
+      }
+    },
+    {
+      "name": "Generated OpenAPI",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/openapi.json"
+      }
+    }
+  ]
+}

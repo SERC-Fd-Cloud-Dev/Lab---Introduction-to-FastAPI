@@ -1,0 +1,2 @@
+# The pinned environment used by this teaching exercise.
+-r requirements-lock.txt

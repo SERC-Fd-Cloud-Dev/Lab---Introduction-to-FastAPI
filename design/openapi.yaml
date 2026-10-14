@@ -1,0 +1,7 @@
+# Replace this minimal shell with your design from the REST/OpenAPI sub-lesson.
+# It is not an export of the implementation and is not a completed workshop answer.
+openapi: 3.1.0
+info:
+  title: Campus Equipment Inventory API
+  version: 0.1.0
+paths: {}
