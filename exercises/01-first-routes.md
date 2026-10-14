@@ -1,42 +1,69 @@
 # 01 — Implement your first routes
 
-**20 minutes · guided · individual implementation**
+**20 minutes · guided start, then individual implementation**
 
-Practise mapping a method/path to a Python function, then observing the HTTP
-response. Begin after the tutor's simple Shuttle Stops demonstration and setup.
+Practise mapping an HTTP request to a Python function and checking the response.
+Begin after the tutor's different Shuttle Stops demonstration and setup.
 
-## Work through it
+## FastAPI in brief
 
-1. Open `app/main.py`. Explain the import, application instance, title and version
-   already supplied. There are no route functions yet.
-2. Define a function for `GET /health`, using an application route decorator.
-   Return the dictionary specified in `design/expected-interface.md`.
-3. Define a static Python list with the three supplied equipment records. Use
-   `data/equipment.json` as the reference; no JSON file-loading code is required.
-4. Define `GET /equipment` to return that list. Keep the data and both routes in
-   `main.py`. Do not add `APIRouter`, `Depends` or additional application layers yet.
-5. Before running, complete the predictions in `evidence/learning-log.md`:
-   which function will run, what body will return, and what will happen at `/`?
-6. From the exercise folder start `python -m uvicorn app.main:app --reload`.
-7. Request `/health` and `/equipment` through Postman or Swagger UI. Record
-   the actual status, `Content-Type` and JSON. The supplied Postman collection
-   and `requests.http` are optional shortcuts.
-8. Open `/docs`, find both operations, then use **Try it out → Execute** on one.
-   Explain how a Python return value becomes an HTTP JSON response.
+FastAPI is a Python framework for describing HTTP interfaces and serving them
+as an application. In `app/main.py`, `app` is the application instance. A
+decorator such as `@app.get("/some-path")` tells FastAPI to handle GET requests
+for that path with the function immediately below it. The function is the
+*route handler*. FastAPI calls it when a matching request arrives.
 
-## Check and save
+For this exercise, a route handler returns a Python dictionary or list. FastAPI
+encodes that value as a JSON response and supplies an HTTP status and headers.
+Uvicorn is the server that accepts network requests and serves the application.
+The application, route handler and server have related but distinct jobs.
 
-Both requests return 200 with the exact specified bodies. The response media
-type is JSON. The equipment array has all three records. A 404 at `/` is fine.
-Compare your predictions with the observed results and explain any difference.
+## Guided start — about 5 minutes
 
-Update the Exercise 01 section of the learning log, then commit the working routes
-and evidence, for example **Add initial health and equipment routes**. Push to
-your own repository using the setup guide's branch workflow.
+1. Open `app/main.py`. Identify the FastAPI import and the supplied `app`
+   instance. The string `app.main:app` used to start Uvicorn means: import the
+   `app` module inside the `app.main` Python module.
+2. Find `design/expected-interface.md`. Read the health route's method, path,
+   status and response. Explain what each part describes before writing code.
+3. Predict which function should handle `GET /health` and what a client should
+   receive. Record the prediction in `evidence/learning-log.md`.
 
-If stuck, check that the decorators use the `app` instance and a leading `/`.
-A returned JSON-like string is not the same as returning a list/dictionary.
-Use `docs/troubleshooting.md` for environment/import problems.
+## Build and inspect — about 15 minutes
 
-Continue only once both routes work. The next exercise changes organisation
-while preserving this observable interface.
+4. Write a handler in `app/main.py` for the health operation. Attach it to the
+   supplied application with a GET route decorator and return the required
+   dictionary. Keep the response body exactly as specified in the interface.
+5. Use `data/equipment.json` as the reference and define the same three records
+   in a static Python list. No file-reading code is needed.
+6. Add a GET handler for the equipment collection that returns the list. Keep
+   the data and both route handlers in `main.py`. For now, do not use
+   `APIRouter`, `Depends`, a database or extra application layers.
+7. Start the app from the exercise folder:
+
+   ```bash
+   python -m uvicorn app.main:app --reload
+   ```
+
+8. Request `/health` and `/equipment` using Postman or `/docs`. For each,
+   inspect the status, `Content-Type` and JSON body. Then use **Try it out →
+   Execute** for one operation in `/docs`. The supplied Postman collection and
+   `requests.http` are optional aids.
+
+## Check, explain and take the next step
+
+Both operations should return 200 with the exact specified JSON bodies and a
+JSON media type. The collection must contain all three records in order. A 404
+at `/` is fine. Compare actual responses with your predictions and explain how
+the decorator connects a request to a function and how its return value becomes
+a response.
+
+Now work without the numbered prompts: choose one request and trace it from
+method and path, through the handler, to status, header and body. Add the
+observations to the Exercise 01 section of `evidence/learning-log.md`. Commit
+the working routes and evidence, then push to your own repository.
+
+If stuck, check that the decorator uses the supplied `app`, the path starts
+with `/`, and the handler returns a Python list/dictionary rather than a
+JSON-looking string. Use `docs/troubleshooting.md` for environment/import
+problems. Continue only when both routes work; Exercise 02 reorganises one
+route while preserving its observable behaviour.
