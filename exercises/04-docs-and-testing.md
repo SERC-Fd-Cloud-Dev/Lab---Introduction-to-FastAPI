@@ -1,54 +1,112 @@
 # 04 — Inspect the contract and write a health test
 
-**17 minutes · supported · individual work**
+**17 minutes · supported practice, ending with an independent check**
 
-Starting point: working routes. The guided router refactor is the expected
-class stage, but the test can also run while your routes remain in one file.
+Starting point: the health and equipment routes work. The router refactor is
+the expected class stage, but the test can also run while the routes remain in
+one file. No test file is supplied: you will create a real test yourself.
 
-## Documentation audit — about 5 minutes
+## Read the generated interface — about 5 minutes
 
-Open `/docs`, `/openapi.json`, and your earlier `design/openapi.yaml` contract.
-In the learning log, record evidence for the API title/version, implemented
-paths, methods, responses and schemas. Record one match and one gap with your
-design. If a route exists only in your design, explain why it is absent from
-the generated document.
+Open `/docs`, `/openapi.json` and your earlier `design/openapi.yaml`. FastAPI
+generates OpenAPI from operations registered on the running application;
+`/docs` presents an interactive view of that document. It describes the
+implemented interface, not every route that may be planned in your design.
 
-A response can contain `id`, `name` and `location` while its generated schema
-remains broad. Without explicit models/appropriate return-type declarations,
-observed data does not by itself become a precise field-level contract.
-You do not need to introduce Pydantic response models in this exercise.
+Compare the title/version, implemented paths and methods, responses and
+available schemas. Record one match and one gap in the learning log, and explain
+why a route that is only in your design is absent from generated OpenAPI. A
+response may contain `id`, `name` and `location` while the generated response
+schema remains broad: observed dictionary fields do not automatically provide
+a precise field-level schema. Pydantic response models are not required here.
 
-## Write your own test — about 12 minutes
+## Pytest and TestClient — about 3 minutes
 
-Create `tests/test_health.py`. Use `TestClient` from `fastapi.testclient` and
-import `app` from `app.main`. Write a test function named
-`test_health_returns_ok`. Use a TestClient context manager, request `/health`,
-and assert both HTTP 200 and exact JSON equality with `{"status": "ok"}`.
+`pytest` discovers test files named `test_*.py` and test functions named
+`test_*`. It runs them and reports whether their assertions passed or failed.
+Run it from the exercise folder with `python -m pytest -q`; using `python -m`
+helps ensure pytest runs with the selected Python environment.
 
-Refer to the tutor's test pattern or the official testing reference in
-`docs/concepts.md`. You write the test; a completed equipment health test is
-deliberately not supplied in the starter.
+FastAPI's `TestClient` sends requests to the app inside the test process. It
+lets a test check real HTTP response status and JSON without starting Uvicorn
+or making a network request. Import the supplied `app` from `app.main`, then
+create the client with `TestClient(app)` (a context manager is recommended).
+The request should still pass through FastAPI's routing and response handling.
 
-Run from the exercise folder in a second terminal with the same environment:
+Before adding a test, pytest collects none and exits with code 5. That means
+there was no test to run; it is neither a pass nor a failure of the health
+route. A test with no meaningful assertions is not evidence either.
 
-```bash
-python -m pytest -q
+Read this **unrelated greeting example** to see the pieces together. It
+illustrates a small app and its test; do not add either snippet to the Equipment
+Inventory app:
+
+```python
+# Example app saved as example_app.py
+from fastapi import FastAPI
+
+demo = FastAPI()
+
+@demo.get("/greeting")
+def greeting():
+    return {"message": "Hello"}
 ```
 
-Stop Uvicorn and rerun the test once. Explain why TestClient does not need
-a separately running server. It sends a request through the app in process.
+```python
+# Example test saved as test_example_app.py
+from example_app import demo
+from fastapi.testclient import TestClient
 
-Temporarily change your expected body to `{"status": "ready"}`. Predict the
-result, run the test, and interpret the assertion failure. Restore `ok` and
-run successfully before committing. Keep the app's response unchanged.
+def test_greeting_returns_message():
+    with TestClient(demo) as client:
+        response = client.get("/greeting")
+    assert response.status_code == 200
+    assert response.json() == {"message": "Hello"}
+```
 
-## Evidence and limits
+Notice the pattern: create a client for the app, request a path, then make
+meaningful assertions about the response. In a real test file, the app object
+is imported from its module, as the second example demonstrates. These filenames
+and snippets are for illustration only; do not create them in your exercise.
 
-Record the passing result, deliberate failure, restored result, and one thing
-the test does not prove. A passing health test is evidence for this endpoint's
-behaviour; it does not establish database readiness, deployment or full contract
-compliance. Commit the test and learning-log update, then push.
+## Build a real test — about 9 minutes
 
-No tests collected is not a pass. Do not use `pass`, unconditional assertions
-or a skip marker as a substitute for a real route check. If a test fails,
-inspect the actual response and the assertion before changing expectations.
+Follow these steps to create `tests/test_health.py`; write the code yourself:
+
+1. Import `TestClient` from `fastapi.testclient` and import `app` from
+   `app.main`. These are the test client and the application under test.
+2. Define a test function named `test_health_returns_ok`. The `test_` prefix
+   lets pytest discover it.
+3. Within the test, open a `TestClient` context for the app and request
+   `/health`. Keep the response so you can inspect its properties.
+4. Add two assertions: one that the status is 200, and one that the decoded
+   JSON equals the exact health body in `design/expected-interface.md`.
+   Assertions compare expected behaviour with actual behaviour; do not replace
+   them with `pass`, skips or unconditional assertions.
+5. Run `python -m pytest -q` from the exercise folder. Read the failure output
+   if either assertion fails; compare the response with the contract before
+   changing code or expectations.
+
+Consult the tutor's basic test walkthrough or the official testing reference in
+`docs/concepts.md` if you need help with Python syntax. The test-writing task,
+not a completed health test, is the scaffold provided here.
+
+## Check independently and record evidence
+
+Stop Uvicorn with Ctrl+C and run the test again. It should still pass because
+TestClient calls the app in process. Record this result in
+`evidence/learning-log.md`.
+
+Now predict what happens if the expected JSON is temporarily changed to
+`{"status": "ready"}`. Make only that test change, rerun pytest, and inspect
+the assertion failure. Restore the contract's expected value and rerun until
+the test passes. Do not change the app response to make the deliberate failure
+go away.
+
+Record the correct run, deliberate failure, restored run and one thing the
+health test does not prove. A passing test is evidence for this endpoint's
+behaviour, not database readiness, deployment or full contract compliance.
+Commit the real test and learning-log evidence, then push.
+
+For a final independent check, describe the two assertions before looking at
+the test code again and explain which one detects an incorrect response body.

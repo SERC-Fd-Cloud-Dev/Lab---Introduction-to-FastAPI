@@ -1,12 +1,23 @@
 # 03 — Recognise dependency injection
 
-**5 minutes · code reading and explanation · no application changes**
+**5 minutes · guided code reading, then individual explanation · no app changes**
 
-Watch the tutor's short `Depends` preview. A dependency provider is a function
-whose result FastAPI can supply to a route. This differs from installing
-a Python package with pip.
+FastAPI dependency injection lets a route declare what supporting value or
+functionality it needs. FastAPI calls the dependency provider while handling a
+request, then supplies the provider's result to the route. The route can use
+that result without having to construct or look up the supporting resource
+itself.
 
-If catching up independently, read this different, configuration-style example:
+This is different from a *package dependency* in `requirements.txt`. A package
+dependency is software installed into the Python environment (for example,
+FastAPI itself). A FastAPI-injected dependency is a value or service supplied
+to application code for a request. The shared word does not mean they are the
+same mechanism.
+
+## Trace the example
+
+The tutor introduces `Depends` briefly. If working independently, read this
+configuration-style example; it is not part of the Equipment Inventory app:
 
 ```python
 from typing import Annotated
@@ -22,16 +33,25 @@ def read_site(site_name: Annotated[str, Depends(get_site_name)]):
     return {"site": site_name}
 ```
 
-Read it here; do not copy it into your Equipment Inventory application.
-Answer briefly in `evidence/learning-log.md`:
+Trace one request to `/site` in order:
 
-1. Who calls `get_site_name`, and how does its result reach `read_site`?
-2. How does `Depends` differ from a dependency listed in `requirements.txt`?
-3. Name a later problem for which a route could need shared supporting functionality.
+1. FastAPI matches the GET request to the decorated route handler.
+2. The handler declares a `site_name` parameter with `Depends(get_site_name)`.
+3. FastAPI calls `get_site_name` and supplies its returned value to that
+   parameter before calling the handler.
+4. The handler uses the supplied value in its response.
 
-**Feedback:** FastAPI calls the provider and supplies its returned value to the
-route parameter. Package dependencies are libraries installed into an environment;
-dependency injection supplies functionality/data while handling a request.
-Database sessions and authenticated-user information are later examples.
+The provider is an ordinary function; `Depends` marks it for FastAPI's request
+handling. This example is for reading only. Do not copy it into the application
+or create a dependency module or test.
 
-No `dependencies.py`, student `Depends` code or dependency test is required.
+## Explain it yourself
+
+In `evidence/learning-log.md`, explain in your own words who calls the provider,
+how its value reaches the route, and how this differs from installing a package
+with pip. Name one later use, such as sharing a database session or authenticated
+user information across route handling.
+
+Finish independently: point to the example's provider, injected parameter and
+route response, then explain why no `Depends` implementation is needed for the
+current static-data exercises. There is no application coding checkpoint here.
