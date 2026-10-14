@@ -1,10 +1,10 @@
 # Setup and repository access
 
 Do this before the practical: allow about 10–15 minutes if the tools are already
-installed. You need Git, Python 3.12, an editor/terminal and access to the teaching
-repository. Package installation needs internet access or a tutor-supplied cache.
+available. Choose either GitHub Codespaces or a local clone. Package installation
+needs internet access or a tutor-supplied cache.
 
-## Get your own working copy
+## Get your own repository
 
 Use the personal repository supplied by your lecturer or created through their
 GitHub Classroom link. If the lecturer gives you a template repository, select
@@ -12,6 +12,17 @@ GitHub Classroom link. If the lecturer gives you a template repository, select
 Use only the default starter branch. If neither route is available, ask the
 lecturer for the correct starter copy. Do not edit the shared class template.
 
+## Option A: GitHub Codespaces
+
+1. Open **your** repository on GitHub and select **Code → Codespaces**.
+2. Select **Create codespace on [the default branch]**. Wait for the editor to
+   open in your browser.
+3. Open the integrated terminal. Your repository is already checked out in the
+   Codespace; do not run `git clone` again.
+
+## Option B: Local setup (clone)
+
+You need Git, Python 3.12, an editor and a terminal installed on your computer.
 On **your** repository, open **Code** and copy its HTTPS clone URL. Replace the
 example below with that real URL; do not type the angle brackets.
 
@@ -20,23 +31,31 @@ git clone <your-repository-HTTPS-URL>
 ```
 
 Open the resulting clone in your editor. If the lecturer imported the exercise
-into a subdirectory, open that subdirectory as the Python working folder.
-All Python commands below run from the folder containing `requirements.txt`
-and `app/`; Git uses the enclosing repository's existing history.
+into a subdirectory, use that subdirectory as the Python working folder; Git uses
+the enclosing repository's existing history.
 
 If you already have a clone, use it. Check `git status` and follow the lecturer's
 instructions to obtain the starter update without overwriting your work.
 Do not run `git init` in an existing clone or create a nested repository.
 
-Create a working branch, or switch to it if it already exists:
+## Continue in either environment
+
+Run Python and Git commands from the folder containing `requirements.txt` and
+`app/`. In the Codespace, use its integrated terminal; locally, use your editor's
+terminal.
+
+Create a working branch:
 
 ```bash
 git switch -c week05-fastapi
 ```
 
+If that branch already exists, switch to it with `git switch week05-fastapi`.
+
 ## Create and select the environment
 
-Check that `python --version` selects Python 3.12, then run:
+In the terminal, check that `python --version` selects Python 3.12, then create
+the environment:
 
 ```bash
 python -m venv .venv
