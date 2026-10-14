@@ -28,16 +28,10 @@ If you already have a clone, use it. Check `git status` and follow the lecturer'
 instructions to obtain the starter update without overwriting your work.
 Do not run `git init` in an existing clone or create a nested repository.
 
-Create a working branch:
+Create a working branch, or switch to it if it already exists:
 
 ```bash
 git switch -c week05-fastapi
-```
-
-If that branch already exists in your clone, switch to it instead:
-
-```bash
-git switch week05-fastapi
 ```
 
 ## Create and select the environment
@@ -63,14 +57,10 @@ python -m pip install -r requirements.txt
 python -m pip check
 ```
 
-Select `.venv` as the interpreter in your editor. If you do not activate the
-environment, use its Python executable in place of `python` in the commands
-below: `.\.venv\Scripts\python.exe` in PowerShell,
-`.venv\Scripts\python.exe` in Command Prompt, or `.venv/bin/python` on macOS/Linux.
-For example, run
-`.\.venv\Scripts\python.exe -m pip install -r requirements.txt` in PowerShell.
-If PowerShell blocks activation, use this direct-Python option; no machine-wide
-execution-policy change is needed.
+Select `.venv` as the interpreter in your editor. If PowerShell blocks activation,
+use Command Prompt or the environment's Python directly, for example
+`.\.venv\Scripts\python.exe -m pip install -r requirements.txt`.
+No machine-wide execution-policy change is needed.
 
 ## Check the starter
 
